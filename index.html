@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <body>
+    <h1 class="vertical-container"> My IP: {{ ip }}</h1>
+{% include 'firebase.html' %}
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function() {
+                console.log('Service Worker Registered');
+          });
+      }
+
+
+    </script>
+    <script>
+      const messaging = firebase.messaging();
+
+      messaging.requestPermission()
+      .then(function() {
+        console.log('Notification permission granted.');
+        
+        return messaging.getToken();
+      })
+      .then(function(token) {
+        alert(token);
+        console.log(token);
+      })
+      .catch(function(err) {
+        console.log('Unable to get permission to notify.', err);
+      })
+    </script>
+  </body>
+</html>
+
+     
+  
